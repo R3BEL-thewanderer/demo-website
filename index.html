@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CalcPro AI™ | Next-Gen Enterprise Computation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1a1635 0%, #0d0b18 60%, #06050b 100%);
+      --card-bg: rgba(22, 19, 39, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-glow: rgba(147, 51, 234, 0.35);
+      --accent-primary: #8b5cf6;
+      --accent-primary-hover: #7c3aed;
+      --accent-secondary: #ec4899;
+      --accent-gradient: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f97316 100%);
+      --btn-bg: rgba(255, 255, 255, 0.04);
+      --btn-bg-hover: rgba(255, 255, 255, 0.1);
+      --btn-op-bg: rgba(139, 92, 246, 0.15);
+      --btn-op-hover: rgba(139, 92, 246, 0.3);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --gold: #f59e0b;
+      --green: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Glows */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.45;
+    }
+    .glow-1 {
+      width: 450px;
+      height: 450px;
+      background: #7c3aed;
+      top: -100px;
+      left: 10%;
+      animation: floatOrb 14s ease-in-out infinite alternate;
+    }
+    .glow-2 {
+      width: 400px;
+      height: 400px;
+      background: #ec4899;
+      bottom: -80px;
+      right: 15%;
+      animation: floatOrb 18s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(50px) scale(1.15); }
+    }
+
+    /* App Container */
+    .app-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 390px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Header Badge & Title */
+    .branding-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4px;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #fff 40%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      color: #c4b5fd;
+      text-transform: uppercase;
+    }
+
+    .cluster-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--green);
+      box-shadow: 0 0 10px var(--green);
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+
+    /* Calculator Shell */
+    .calculator-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6),
+                  0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .calculator-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0) 60%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Display Area */
+    .screen-container {
+      background: rgba(10, 8, 20, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 20px 18px 16px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-end;
+      min-height: 110px;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .server-tag {
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      font-size: 0.68rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #64748b;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .history-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      min-height: 1.4rem;
+      word-break: break-all;
+      text-align: right;
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+
+    .main-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.45rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      overflow-x: auto;
+      max-width: 100%;
+      text-align: right;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+    .main-display::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Keypad Grid */
+    .keypad-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 11px;
+    }
+
+    .calc-btn {
+      position: relative;
+      background: var(--btn-bg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: 16px 0;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      outline: none;
+    }
+
+    .calc-btn:hover {
+      background: var(--btn-bg-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .calc-btn:active {
+      transform: translateY(1px) scale(0.97);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-func {
+      color: #cbd5e1;
+      font-size: 1.05rem;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .btn-func:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+    }
+
+    .btn-op {
+      color: #c4b5fd;
+      background: var(--btn-op-bg);
+      border-color: rgba(139, 92, 246, 0.25);
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .btn-op:hover {
+      background: var(--btn-op-hover);
+      border-color: rgba(139, 92, 246, 0.5);
+      color: #fff;
+    }
+
+    .btn-clear {
+      color: #f87171;
+    }
+    .btn-clear:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    /* The Glorious EQUAL TO Button */
+    .btn-equal {
+      grid-column: span 2;
+      background: var(--accent-gradient);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1.35rem;
+      border: none;
+      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-equal::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+      );
+      transform: rotate(30deg);
+      animation: shimmerBtn 3.5s infinite;
+    }
+
+    @keyframes shimmerBtn {
+      0% { transform: translateX(-150%) rotate(30deg); }
+      30%, 100% { transform: translateX(150%) rotate(30deg); }
+    }
+
+    .btn-equal:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 28px rgba(236, 72, 153, 0.55);
+      filter: brightness(1.1);
+    }
+
+    .btn-equal:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .watermark-note {
+      text-align: center;
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* Modal Backdrop */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 4, 15, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Paywall Dialog Card */
+    .paywall-dialog {
+      background: #151128;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 440px;
+      padding: 28px 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8),
+                  0 0 40px rgba(168, 85, 247, 0.25);
+      transform: translateY(30px) scale(0.95);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      max-height: 90vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+
+    .modal-backdrop.active .paywall-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    /* Modal Header */
+    .paywall-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .alert-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+
+    .close-modal-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: none;
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+    .close-modal-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    .paywall-heading {
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .paywall-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 18px;
+    }
+
+    /* Locked Result Preview Box */
+    .locked-preview-box {
+      background: rgba(23, 19, 44, 0.9);
+      border: 1px dashed rgba(168, 85, 247, 0.4);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .locked-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .locked-sub {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .locked-calc-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .blurred-answer {
+      filter: blur(6px);
+      user-select: none;
+      background: rgba(255,255,255,0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: #a855f7;
+    }
+
+    /* Subscription Tier Cards */
+    .plans-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .plan-card {
+      position: relative;
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .plan-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .plan-card.highlighted {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.12) 100%);
+      border: 1.5px solid #a855f7;
+      box-shadow: 0 8px 24px -6px rgba(168, 85, 247, 0.4);
+    }
+
+    .plan-tag-popular {
+      position: absolute;
+      top: -10px;
+      right: 18px;
+      background: var(--accent-gradient);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4);
+      letter-spacing: 0.05em;
+    }
+
+    .plan-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .plan-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .plan-price {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .plan-price span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .plan-perks {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .plan-perks li {
+      font-size: 0.78rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .plan-perks li.crossed {
+      color: #64748b;
+      text-decoration: line-through;
+    }
+
+    .perk-check {
+      color: #10b981;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .perk-x {
+      color: #f87171;
+      font-weight: bold;
+    }
+
+    /* Checkout & Action Buttons */
+    .cta-subscribe-btn {
+      width: 100%;
+      background: var(--accent-gradient);
+      border: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .cta-subscribe-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(236, 72, 153, 0.55);
+      filter: brightness(1.1);
+    }
+
+    .cta-subscribe-btn:active {
+      transform: translateY(1px);
+    }
+
+    .secondary-options {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .bypass-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      transition: color 0.2s;
+    }
+
+    .bypass-btn:hover {
+      color: #f1f5f9;
+    }
+
+    .fineprint {
+      font-size: 0.68rem;
+      color: #475569;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Fake Checkout Flow View (Step 2 inside Modal) */
+    .checkout-view {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .checkout-view.active {
+      display: flex;
+    }
+
+    .checkout-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .checkout-input-group label {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .checkout-input {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .checkout-input:focus {
+      border-color: #a855f7;
+      box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25);
+    }
+
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* Unlocked Success Banner */
+    .success-view {
+      display: none;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+    }
+
+    .success-view.active {
+      display: flex;
+    }
+
+    .celebration-icon {
+      font-size: 3.5rem;
+      animation: bounceCelebration 0.6s ease infinite alternate;
+    }
+
+    @keyframes bounceCelebration {
+      0% { transform: scale(1) translateY(0); }
+      100% { transform: scale(1.1) translateY(-8px); }
+    }
+
+    .revealed-answer-card {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1.5px solid rgba(16, 185, 129, 0.4);
+      border-radius: 20px;
+      padding: 20px 24px;
+      width: 100%;
+      margin: 8px 0;
+    }
+
+    .revealed-formula {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #a7f3d0;
+      margin-bottom: 4px;
+    }
+
+    .revealed-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #34d399;
+      text-shadow: 0 0 20px rgba(52, 211, 153, 0.4);
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2000;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .app-wrapper {
+        max-width: 100%;
+      }
+      .calculator-card {
+        padding: 18px;
+        border-radius: 24px;
+      }
+      .calc-btn {
+        padding: 14px 0;
+        font-size: 1.15rem;
+        border-radius: 14px;
+      }
+      .main-display {
+        font-size: 2.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Ambient Orbs -->
+  <div class="glow-orb glow-1"></div>
+  <div class="glow-orb glow-2"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="app-wrapper">
+    
+    <!-- Top Branding -->
+    <header class="branding-bar">
+      <div class="brand-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="url(#logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <defs>
+            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a855f7" />
+              <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+          </defs>
+          <rect x="4" y="2" width="16" height="20" rx="2" />
+          <line x1="8" y1="6" x2="16" y2="6" />
+          <line x1="16" y1="14" x2="16" y2="14.01" />
+          <line x1="12" y1="14" x2="12" y2="14.01" />
+          <line x1="8" y1="14" x2="8" y2="14.01" />
+          <line x1="16" y1="18" x2="16" y2="18.01" />
+          <line x1="12" y1="18" x2="12" y2="18.01" />
+          <line x1="8" y1="18" x2="8" y2="18.01" />
+        </svg>
+        CalcPro AI
+        <span class="brand-badge">Free Tier</span>
+      </div>
+      <div class="cluster-status">
+        <span class="status-dot"></span>
+        AWS GPU Online
+      </div>
+    </header>
+
+    <!-- Main Calculator Shell -->
+    <main class="calculator-card">
+      
+      <!-- Calculator Display -->
+      <section class="screen-container" aria-label="Calculator Screen">
+        <div class="server-tag">
+          <span>⚡ QUANTUM-NODE-09</span>
+        </div>
+        <div class="history-text" id="calc-history">&nbsp;</div>
+        <div class="main-display" id="calc-display">0</div>
+      </section>
+
+      <!-- Keypad -->
+      <section class="keypad-grid" aria-label="Keypad">
+        <!-- Row 1 -->
+        <button class="calc-btn btn-func btn-clear" data-action="clear" title="Clear Display">AC</button>
+        <button class="calc-btn btn-func" data-action="backspace" title="Delete Last Digit">⌫</button>
+        <button class="calc-btn btn-func" data-action="percent" title="Percentage">%</button>
+        <button class="calc-btn btn-op" data-action="operator" data-val="/" title="Divide">÷</button>
+
+        <!-- Row 2 -->
+        <button class="calc-btn" data-action="num" data-val="7">7</button>
+        <button class="calc-btn" data-action="num" data-val="8">8</button>
+        <button class="calc-btn" data-action="num" data-val="9">9</button>
+        <button class="calc-btn btn-op" data-action="operator" data-val="*" title="Multiply">×</button>
+
+        <!-- Row 3 -->
+        <button class="calc-btn" data-action="num" data-val="4">4</button>
+        <button class="calc-btn" data-action="num" data-val="5">5</button>
+        <button class="calc-btn" data-action="num" data-val="6">6</button>
+        <button class="calc-btn btn-op" data-action="operator" data-val="-" title="Subtract">−</button>
+
+        <!-- Row 4 -->
+        <button class="calc-btn" data-action="num" data-val="1">1</button>
+        <button class="calc-btn" data-action="num" data-val="2">2</button>
+        <button class="calc-btn" data-action="num" data-val="3">3</button>
+        <button class="calc-btn btn-op" data-action="operator" data-val="+" title="Add">+</button>
+
+        <!-- Row 5 -->
+        <button class="calc-btn" data-action="num" data-val="0">0</button>
+        <button class="calc-btn" data-action="decimal">.</button>
+        <button class="calc-btn btn-equal" data-action="calculate" title="Compute with CalcPro Engine">
+          =
+        </button>
+      </section>
+
+      <div class="watermark-note">
+        🔒 Free Tier: Input is free • Output requires subscription
+      </div>
+    </main>
+
+  </div>
+
+  <!-- PAYWALL MODAL -->
+  <div class="modal-backdrop" id="paywall-modal" role="dialog" aria-modal="true">
+    <div class="paywall-dialog">
+      
+      <!-- Top status & close -->
+      <div class="paywall-badge-row">
+        <span class="alert-pill">
+          ⚠️ Computation Limit Reached
+        </span>
+        <button class="close-modal-btn" id="close-modal-x" title="Close">✕</button>
+      </div>
+
+      <!-- VIEW 1: PAYWALL SUBSCRIPTION TIERS -->
+      <div id="view-tiers">
+        <h2 class="paywall-heading">Unlock Your Calculation Result</h2>
+        <p class="paywall-desc">
+          High-precision arithmetic requires advanced Nvidia H100 GPU clusters. To display the number after the <strong>"="</strong> sign, please upgrade to <strong>CalcPro Enterprise™</strong>.
+        </p>
+
+        <!-- Blurred Preview -->
+        <div class="locked-preview-box">
+          <div class="locked-label">
+            <span>PREVIEW EQUATION</span>
+            <span class="locked-sub" id="preview-expression">5 + 5</span>
+          </div>
+          <div class="locked-calc-val">
+            = <span class="blurred-answer" id="blurred-val">???</span> 🔒
+          </div>
+        </div>
+
+        <!-- Plans -->
+        <div class="plans-container">
+          <!-- Free Plan -->
+          <div class="plan-card">
+            <div class="plan-header">
+              <span class="plan-name">Student Starter</span>
+              <div class="plan-price">$0 <span>/ forever</span></div>
+            </div>
+            <ul class="plan-perks">
+              <li><span class="perk-check">✓</span> Press buttons & hear cool clicks</li>
+              <li><span class="perk-check">✓</span> High Definition digits (0-9)</li>
+              <li class="crossed"><span class="perk-x">✕</span> Viewing answers to your equations</li>
+            </ul>
+          </div>
+
+          <!-- PRO Plan -->
+          <div class="plan-card highlighted" id="tier-pro">
+            <span class="plan-tag-popular">87% OFF • FLASH DEAL</span>
+            <div class="plan-header">
+              <span class="plan-name">✨ Pro Math Bro</span>
+              <div class="plan-price">$4.99 <span>/ month</span></div>
+            </div>
+            <ul class="plan-perks">
+              <li><span class="perk-check">✓</span> <strong>Instant Equal To (=) Button Access</strong></li>
+              <li><span class="perk-check">✓</span> Unlimited addition, subtraction & division</li>
+              <li><span class="perk-check">✓</span> NASA-certified rounding accuracy</li>
+              <li><span class="perk-check">✓</span> Zero guilt trips & VIP Customer Support</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <button class="cta-subscribe-btn" id="cta-checkout-btn">
+          <span>🚀 Upgrade & Reveal Result</span>
+        </button>
+
+        <div class="secondary-options">
+          <button class="bypass-btn" id="bypass-btn">
+            I'm a broke student (Watch 30s ad & reveal free)
+          </button>
+          <p class="fineprint">
+            Recurring billing of $4.99/sec unless canceled 10 years prior. 100% satirical guarantee.
+          </p>
+        </div>
+      </div>
+
+      <!-- VIEW 2: MOCK CHECKOUT FORM -->
+      <div id="view-checkout" class="checkout-view">
+        <h2 class="paywall-heading">💳 Express Checkout</h2>
+        <p class="paywall-desc">
+          Enter any mock card details to unlock your math answer immediately.
+        </p>
+
+        <div class="checkout-input-group">
+          <label>Cardholder Name</label>
+          <input type="text" class="checkout-input" value="Broke Math Enthusiast" id="card-name">
+        </div>
+
+        <div class="checkout-input-group">
+          <label>Card Number</label>
+          <input type="text" class="checkout-input" value="4242 •••• •••• 1337" maxlength="19" id="card-number">
+        </div>
+
+        <div class="card-row">
+          <div class="checkout-input-group">
+            <label>Expiry</label>
+            <input type="text" class="checkout-input" value="12/30">
+          </div>
+          <div class="checkout-input-group">
+            <label>CVC (Back of Card)</label>
+            <input type="text" class="checkout-input" value="777" maxlength="4">
+          </div>
+        </div>
+
+        <button class="cta-subscribe-btn" id="confirm-pay-btn" style="margin-top: 10px;">
+          <span>💸 Pay $4.99 & Reveal Answer</span>
+        </button>
+
+        <div class="secondary-options">
+          <button class="bypass-btn" id="back-to-plans-btn">
+            ← Back to plan selection
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW 3: PAYMENT CONFIRMED / UNLOCKED RESULT -->
+      <div id="view-success" class="success-view">
+        <div class="celebration-icon">🎉</div>
+        <h2 class="paywall-heading">VIP Subscription Active!</h2>
+        <p class="paywall-desc" style="margin-bottom: 0;">
+          Payment received (in spirit). We rented 12 quantum servers to solve your complex computation:
+        </p>
+
+        <div class="revealed-answer-card">
+          <div class="revealed-formula" id="success-formula">5 + 5</div>
+          <div class="revealed-number" id="success-result">10</div>
+        </div>
+
+        <button class="cta-subscribe-btn" id="apply-result-btn">
+          <span>Apply to Calculator & Continue ⚡</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // --- SYNTHESIZED SOUND EFFECTS VIA WEB AUDIO API ---
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+      }
+      playClick() {
+        try {
+          this.init();
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.04);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.04);
+        } catch(e) {}
+      }
+      playPaywallAlarm() {
+        try {
+          this.init();
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.linearRampToValueAtTime(180, now + 0.15);
+          osc.frequency.linearRampToValueAtTime(130, now + 0.3);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } catch(e) {}
+      }
+      playChaChing() {
+        try {
+          this.init();
+          const notes = [523.25, 659.25, 783.99, 1046.50]; // C E G C
+          notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            const start = this.ctx.currentTime + idx * 0.08;
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, start);
+            gain.gain.setValueAtTime(0.18, start);
+            gain.gain.exponentialRampToValueAtTime(0.001, start + 0.25);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(start);
+            osc.stop(start + 0.26);
+          });
+        } catch(e) {}
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    // --- CONFETTI SYSTEM ---
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let confettiParticles = [];
+    let animationFrame = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function launchConfetti() {
+      confettiParticles = [];
+      const colors = ['#a855f7', '#ec4899', '#f97316', '#10b981', '#38bdf8', '#facc15'];
+      for (let i = 0; i < 90; i++) {
+        confettiParticles.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+          y: canvas.height / 2 - 50,
+          vx: (Math.random() - 0.5) * 14,
+          vy: Math.random() * -12 - 4,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 12,
+          gravity: 0.38,
+          opacity: 1
+        });
+      }
+      if (!animationFrame) loopConfetti();
+    }
+
+    function loopConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confettiParticles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.rotation += p.rotSpeed;
+        p.opacity -= 0.007;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0, p.opacity);
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+      });
+
+      confettiParticles = confettiParticles.filter(p => p.opacity > 0 && p.y < canvas.height + 50);
+
+      if (confettiParticles.length > 0) {
+        animationFrame = requestAnimationFrame(loopConfetti);
+      } else {
+        animationFrame = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    // --- CALCULATOR STATE & LOGIC ---
+    let currentInput = '0';
+    let previousExpression = '';
+    let pendingEvaluation = null;
+    let isCalculated = false;
+    let hasSubscribed = false;
+
+    const displayEl = document.getElementById('calc-display');
+    const historyEl = document.getElementById('calc-history');
+
+    function updateDisplay() {
+      displayEl.textContent = currentInput;
+      historyEl.textContent = previousExpression || '\u00A0';
+    }
+
+    function formatNumber(num) {
+      if (isNaN(num)) return 'Error';
+      if (!isFinite(num)) return '∞';
+      // Limit floating point garbage
+      const rounded = parseFloat(num.toFixed(8));
+      return rounded.toString();
+    }
+
+    function computeMathResult(expr) {
+      try {
+        // Sanitize string to only math symbols and digits
+        const clean = expr.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-');
+        if (!/^[0-9+\-*/. ()]+$/.test(clean)) return 'Error';
+        // Safe evaluation
+        const res = Function(`'use strict'; return (${clean})`)();
+        return formatNumber(res);
+      } catch (err) {
+        return 'Error';
+      }
+    }
+
+    function handleNumber(num) {
+      sound.playClick();
+      if (isCalculated) {
+        currentInput = num;
+        previousExpression = '';
+        isCalculated = false;
+      } else if (currentInput === '0') {
+        currentInput = num;
+      } else {
+        currentInput += num;
+      }
+      updateDisplay();
+    }
+
+    function handleDecimal() {
+      sound.playClick();
+      if (isCalculated) {
+        currentInput = '0.';
+        previousExpression = '';
+        isCalculated = false;
+        updateDisplay();
+        return;
+      }
+      // Check last token
+      const parts = currentInput.split(/[+\-*/]/);
+      const currentToken = parts[parts.length - 1];
+      if (!currentToken.includes('.')) {
+        currentInput += '.';
+      }
+      updateDisplay();
+    }
+
+    function handleOperator(opSymbol) {
+      sound.playClick();
+      if (isCalculated) {
+        previousExpression = '';
+        isCalculated = false;
+      }
+      const lastChar = currentInput.slice(-1);
+      if (['+', '-', '*', '/'].includes(lastChar)) {
+        currentInput = currentInput.slice(0, -1) + opSymbol;
+      } else {
+        currentInput += opSymbol;
+      }
+      updateDisplay();
+    }
+
+    function handleClear() {
+      sound.playClick();
+      currentInput = '0';
+      previousExpression = '';
+      isCalculated = false;
+      updateDisplay();
+    }
+
+    function handleBackspace() {
+      sound.playClick();
+      if (isCalculated) {
+        handleClear();
+        return;
+      }
+      if (currentInput.length > 1) {
+        currentInput = currentInput.slice(0, -1);
+      } else {
+        currentInput = '0';
+      }
+      updateDisplay();
+    }
+
+    function handlePercent() {
+      sound.playClick();
+      try {
+        const val = parseFloat(currentInput);
+        if (!isNaN(val)) {
+          currentInput = (val / 100).toString();
+          updateDisplay();
+        }
+      } catch(e) {}
+    }
+
+    // --- PAYWALL TRIGGER LOGIC ---
+    const paywallModal = document.getElementById('paywall-modal');
+    const viewTiers = document.getElementById('view-tiers');
+    const viewCheckout = document.getElementById('view-checkout');
+    const viewSuccess = document.getElementById('view-success');
+    const previewExprEl = document.getElementById('preview-expression');
+    const blurredValEl = document.getElementById('blurred-val');
+    const successFormulaEl = document.getElementById('success-formula');
+    const successResultEl = document.getElementById('success-result');
+
+    function triggerCalculationPaywall() {
+      const cleanExpr = currentInput.trim();
+      const calculated = computeMathResult(cleanExpr);
+
+      // If user has already subscribed during this session, let them have instant result!
+      if (hasSubscribed) {
+        sound.playChaChing();
+        previousExpression = cleanExpr + ' =';
+        currentInput = calculated;
+        isCalculated = true;
+        updateDisplay();
+        launchConfetti();
+        return;
+      }
+
+      // Play dramatic paywall alert!
+      sound.playPaywallAlarm();
+
+      pendingEvaluation = {
+        expression: cleanExpr,
+        result: calculated
+      };
+
+      // Populate Modal Details
+      previewExprEl.textContent = cleanExpr;
+      blurredValEl.textContent = calculated !== 'Error' ? calculated : '???';
+      successFormulaEl.textContent = cleanExpr + ' =';
+      successResultEl.textContent = calculated;
+
+      // Show View 1
+      showModalView('tiers');
+      paywallModal.classList.add('active');
+    }
+
+    function showModalView(view) {
+      viewTiers.style.display = view === 'tiers' ? 'block' : 'none';
+      viewCheckout.classList.toggle('active', view === 'checkout');
+      viewSuccess.classList.toggle('active', view === 'success');
+    }
+
+    function closeModal() {
+      sound.playClick();
+      paywallModal.classList.remove('active');
+    }
+
+    // --- BUTTON EVENT LISTENERS ---
+    document.querySelectorAll('.calc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        const val = btn.dataset.val;
+
+        if (action === 'num') handleNumber(val);
+        else if (action === 'operator') handleOperator(val);
+        else if (action === 'decimal') handleDecimal();
+        else if (action === 'clear') handleClear();
+        else if (action === 'backspace') handleBackspace();
+        else if (action === 'percent') handlePercent();
+        else if (action === 'calculate') triggerCalculationPaywall();
+      });
+    });
+
+    // Close button
+    document.getElementById('close-modal-x').addEventListener('click', closeModal);
+
+    // Click outside modal dialog to close
+    paywallModal.addEventListener('click', (e) => {
+      if (e.target === paywallModal) closeModal();
+    });
+
+    // Tier selection & checkout
+    document.getElementById('cta-checkout-btn').addEventListener('click', () => {
+      sound.playClick();
+      showModalView('checkout');
+    });
+
+    document.getElementById('tier-pro').addEventListener('click', () => {
+      sound.playClick();
+      showModalView('checkout');
+    });
+
+    document.getElementById('back-to-plans-btn').addEventListener('click', () => {
+      sound.playClick();
+      showModalView('tiers');
+    });
+
+    // Mock Card Payment Confirm
+    document.getElementById('confirm-pay-btn').addEventListener('click', () => {
+      sound.playChaChing();
+      launchConfetti();
+      hasSubscribed = true;
+      showModalView('success');
+    });
+
+    // Guilt-trip / Fake Ad bypass button
+    document.getElementById('bypass-btn').addEventListener('click', () => {
+      sound.playClick();
+      const bypassBtn = document.getElementById('bypass-btn');
+      bypassBtn.textContent = '⏳ Simulating 30s ad: "Local singles near you love Calculus..." (3s remaining)';
+      bypassBtn.style.color = '#f59e0b';
+      
+      setTimeout(() => {
+        bypassBtn.textContent = '✅ Ad finished! Unlocking your answer for free...';
+        sound.playChaChing();
+        launchConfetti();
+        setTimeout(() => {
+          showModalView('success');
+          bypassBtn.textContent = "I'm a broke student (Watch 30s ad & reveal free)";
+          bypassBtn.style.color = '#94a3b8';
+        }, 900);
+      }, 1500);
+    });
+
+    // Apply result back to calculator
+    document.getElementById('apply-result-btn').addEventListener('click', () => {
+      if (pendingEvaluation) {
+        previousExpression = pendingEvaluation.expression + ' =';
+        currentInput = pendingEvaluation.result;
+        isCalculated = true;
+        updateDisplay();
+      }
+      closeModal();
+    });
+
+    // --- KEYBOARD SUPPORT ---
+    window.addEventListener('keydown', (e) => {
+      if (paywallModal.classList.contains('active')) {
+        if (e.key === 'Escape') closeModal();
+        return;
+      }
+
+      if (e.key >= '0' && e.key <= '9') {
+        handleNumber(e.key);
+      } else if (['+', '-', '*', '/'].includes(e.key)) {
+        handleOperator(e.key);
+      } else if (e.key === '.') {
+        handleDecimal();
+      } else if (e.key === 'Enter' || e.key === '=') {
+        e.preventDefault();
+        triggerCalculationPaywall();
+      } else if (e.key === 'Backspace') {
+        handleBackspace();
+      } else if (e.key === 'Escape' || e.key.toLowerCase() === 'c') {
+        handleClear();
+      } else if (e.key === '%') {
+        handlePercent();
+      }
+    });
+  </script>
+</body>
+</html>
