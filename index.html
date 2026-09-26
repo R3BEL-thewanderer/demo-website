@@ -9,23 +9,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: radial-gradient(circle at 50% 0%, #1a1635 0%, #0d0b18 60%, #06050b 100%);
-      --card-bg: rgba(22, 19, 39, 0.75);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --card-border-glow: rgba(147, 51, 234, 0.35);
-      --accent-primary: #8b5cf6;
-      --accent-primary-hover: #7c3aed;
-      --accent-secondary: #ec4899;
-      --accent-gradient: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f97316 100%);
-      --btn-bg: rgba(255, 255, 255, 0.04);
-      --btn-bg-hover: rgba(255, 255, 255, 0.1);
-      --btn-op-bg: rgba(139, 92, 246, 0.15);
-      --btn-op-hover: rgba(139, 92, 246, 0.3);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --gold: #f59e0b;
-      --green: #10b981;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #fff8f1 0%, #fdebdc 56%, #f4ddd1 100%);
+      --card-bg: rgba(255, 248, 239, 0.84);
+      --card-border: rgba(217, 170, 144, 0.42);
+      --card-border-glow: rgba(228, 146, 114, 0.3);
+      --accent-primary: #df8364;
+      --accent-primary-hover: #cf7255;
+      --accent-secondary: #d38aa0;
+      --accent-gradient: linear-gradient(135deg, #f4bc95 0%, #eb947f 52%, #d997a9 100%);
+      --btn-bg: rgba(255, 255, 255, 0.72);
+      --btn-bg-hover: rgba(255, 241, 230, 0.96);
+      --btn-op-bg: rgba(223, 131, 100, 0.18);
+      --btn-op-hover: rgba(223, 131, 100, 0.32);
+      --text-main: #4d3028;
+      --text-muted: #7f6258;
+      --text-dim: #9d7b6f;
+      --gold: #c8873d;
+      --green: #529f7c;
     }
 
     * {
@@ -62,7 +62,7 @@
     .glow-1 {
       width: 450px;
       height: 450px;
-      background: #7c3aed;
+      background: #f6c5a2;
       top: -100px;
       left: 10%;
       animation: floatOrb 14s ease-in-out infinite alternate;
@@ -70,7 +70,7 @@
     .glow-2 {
       width: 400px;
       height: 400px;
-      background: #ec4899;
+      background: #e9acba;
       bottom: -80px;
       right: 15%;
       animation: floatOrb 18s ease-in-out infinite alternate-reverse;
@@ -107,7 +107,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(135deg, #fff 40%, #cbd5e1 100%);
+      background: linear-gradient(135deg, #7f4f40 20%, #c27961 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -118,9 +118,9 @@
       letter-spacing: 0.05em;
       padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(139, 92, 246, 0.2);
-      border: 1px solid rgba(139, 92, 246, 0.4);
-      color: #c4b5fd;
+      background: rgba(223, 131, 100, 0.2);
+      border: 1px solid rgba(223, 131, 100, 0.4);
+      color: #9a5541;
       text-transform: uppercase;
     }
 
@@ -155,8 +155,8 @@
       -webkit-backdrop-filter: blur(28px);
       border-radius: 28px;
       padding: 24px;
-      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6),
-                  0 0 0 1px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 18px 44px -20px rgba(147, 103, 79, 0.45),
+                  0 0 0 1px rgba(255, 255, 255, 0.58);
       position: relative;
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -168,7 +168,7 @@
       inset: 0;
       border-radius: 28px;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0) 60%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0) 62%);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
@@ -177,8 +177,8 @@
 
     /* Display Area */
     .screen-container {
-      background: rgba(10, 8, 20, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 241, 228, 0.86);
+      border: 1px solid rgba(217, 170, 144, 0.34);
       border-radius: 20px;
       padding: 20px 18px 16px 18px;
       margin-bottom: 20px;
@@ -187,7 +187,7 @@
       align-items: flex-end;
       justify-content: flex-end;
       min-height: 110px;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+      box-shadow: inset 0 2px 6px rgba(157, 116, 93, 0.22);
       position: relative;
     }
 
@@ -197,7 +197,7 @@
       left: 14px;
       font-size: 0.68rem;
       font-family: 'JetBrains Mono', monospace;
-      color: #64748b;
+      color: #9d7b6f;
       letter-spacing: 0.02em;
       display: flex;
       align-items: center;
@@ -242,7 +242,7 @@
     .calc-btn {
       position: relative;
       background: var(--btn-bg);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(217, 170, 144, 0.33);
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 1.25rem;
@@ -254,65 +254,65 @@
       align-items: center;
       justify-content: center;
       transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 10px rgba(148, 110, 88, 0.2);
       outline: none;
     }
 
     .calc-btn:hover {
       background: var(--btn-bg-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
-      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 6px 14px rgba(148, 110, 88, 0.3);
+      border-color: rgba(226, 181, 155, 0.55);
     }
 
     .calc-btn:active {
       transform: translateY(1px) scale(0.97);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 5px rgba(148, 110, 88, 0.24);
     }
 
     .btn-func {
-      color: #cbd5e1;
+      color: #7e6157;
       font-size: 1.05rem;
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(255, 255, 255, 0.45);
     }
 
     .btn-func:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #f1f5f9;
+      background: rgba(255, 232, 215, 0.9);
+      color: #5a392f;
     }
 
     .btn-op {
-      color: #c4b5fd;
+      color: #9a5541;
       background: var(--btn-op-bg);
-      border-color: rgba(139, 92, 246, 0.25);
+      border-color: rgba(223, 131, 100, 0.32);
       font-size: 1.35rem;
       font-weight: 700;
     }
 
     .btn-op:hover {
       background: var(--btn-op-hover);
-      border-color: rgba(139, 92, 246, 0.5);
-      color: #fff;
+      border-color: rgba(223, 131, 100, 0.58);
+      color: #5a3127;
     }
 
     .btn-clear {
-      color: #f87171;
+      color: #c44f5f;
     }
     .btn-clear:hover {
-      background: rgba(239, 68, 68, 0.15);
-      border-color: rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
+      background: rgba(196, 79, 95, 0.13);
+      border-color: rgba(196, 79, 95, 0.32);
+      color: #b14151;
     }
 
     /* The Glorious EQUAL TO Button */
     .btn-equal {
       grid-column: span 2;
       background: var(--accent-gradient);
-      color: #ffffff;
+      color: #4d3028;
       font-weight: 800;
       font-size: 1.35rem;
       border: none;
-      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.45);
+      box-shadow: 0 6px 20px rgba(211, 132, 101, 0.45);
       position: relative;
       overflow: hidden;
     }
@@ -341,7 +341,7 @@
 
     .btn-equal:hover {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 10px 28px rgba(236, 72, 153, 0.55);
+      box-shadow: 0 10px 28px rgba(217, 142, 164, 0.52);
       filter: brightness(1.1);
     }
 
@@ -352,7 +352,7 @@
     .watermark-note {
       text-align: center;
       font-size: 0.72rem;
-      color: #64748b;
+      color: #9d7b6f;
       margin-top: 14px;
       display: flex;
       align-items: center;
@@ -364,7 +364,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(6, 4, 15, 0.82);
+      background: rgba(106, 73, 58, 0.42);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 1000;
@@ -384,14 +384,14 @@
 
     /* Paywall Dialog Card */
     .paywall-dialog {
-      background: #151128;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #fff4e8;
+      border: 1px solid rgba(217, 170, 144, 0.45);
       border-radius: 28px;
       width: 100%;
       max-width: 440px;
       padding: 28px 24px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8),
-                  0 0 40px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 24px 65px rgba(133, 97, 79, 0.34),
+                  0 0 36px rgba(223, 131, 100, 0.22);
       transform: translateY(30px) scale(0.95);
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
@@ -399,7 +399,7 @@
       max-height: 90vh;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,256,0.1) transparent;
+      scrollbar-color: rgba(160,122,100,0.28) transparent;
     }
 
     .modal-backdrop.active .paywall-dialog {
@@ -424,13 +424,13 @@
       letter-spacing: 0.05em;
       padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #f87171;
+      background: rgba(196, 79, 95, 0.13);
+      border: 1px solid rgba(196, 79, 95, 0.3);
+      color: #b34857;
     }
 
     .close-modal-btn {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(198, 152, 126, 0.2);
       border: none;
       color: var(--text-muted);
       width: 32px;
@@ -444,8 +444,8 @@
       transition: all 0.2s;
     }
     .close-modal-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
+      background: rgba(198, 152, 126, 0.36);
+      color: #4d3028;
     }
 
     .paywall-heading {
@@ -454,7 +454,7 @@
       line-height: 1.25;
       letter-spacing: -0.02em;
       margin-bottom: 8px;
-      background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 100%);
+      background: linear-gradient(135deg, #7f4f40 24%, #bf735d 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -468,8 +468,8 @@
 
     /* Locked Result Preview Box */
     .locked-preview-box {
-      background: rgba(23, 19, 44, 0.9);
-      border: 1px dashed rgba(168, 85, 247, 0.4);
+      background: rgba(253, 232, 215, 0.9);
+      border: 1px dashed rgba(223, 131, 100, 0.48);
       border-radius: 16px;
       padding: 14px 18px;
       display: flex;
@@ -482,7 +482,7 @@
     .locked-label {
       font-size: 0.75rem;
       font-weight: 600;
-      color: #cbd5e1;
+      color: #6a493e;
       display: flex;
       flex-direction: column;
       gap: 2px;
@@ -498,7 +498,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.15rem;
       font-weight: 700;
-      color: #e2e8f0;
+      color: #5a392f;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -507,10 +507,10 @@
     .blurred-answer {
       filter: blur(6px);
       user-select: none;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.78);
       padding: 2px 8px;
       border-radius: 6px;
-      color: #a855f7;
+      color: #bf7058;
     }
 
     /* Subscription Tier Cards */
@@ -525,8 +525,8 @@
       position: relative;
       border-radius: 18px;
       padding: 16px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(217, 170, 144, 0.34);
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
@@ -535,14 +535,14 @@
     }
 
     .plan-card:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 239, 226, 0.92);
+      border-color: rgba(217, 170, 144, 0.55);
     }
 
     .plan-card.highlighted {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.12) 100%);
-      border: 1.5px solid #a855f7;
-      box-shadow: 0 8px 24px -6px rgba(168, 85, 247, 0.4);
+      background: linear-gradient(135deg, rgba(244, 188, 149, 0.34) 0%, rgba(217, 151, 169, 0.3) 100%);
+      border: 1.5px solid #df8364;
+      box-shadow: 0 8px 24px -6px rgba(211, 132, 101, 0.35);
     }
 
     .plan-tag-popular {
@@ -550,13 +550,13 @@
       top: -10px;
       right: 18px;
       background: var(--accent-gradient);
-      color: #fff;
+      color: #4d3028;
       font-size: 0.65rem;
       font-weight: 800;
       text-transform: uppercase;
       padding: 3px 9px;
       border-radius: 999px;
-      box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4);
+      box-shadow: 0 2px 8px rgba(217, 151, 169, 0.38);
       letter-spacing: 0.05em;
     }
 
@@ -569,7 +569,7 @@
     .plan-name {
       font-size: 0.95rem;
       font-weight: 700;
-      color: #fff;
+      color: #4d3028;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -578,7 +578,7 @@
     .plan-price {
       font-size: 1.35rem;
       font-weight: 800;
-      color: #fff;
+      color: #4d3028;
       letter-spacing: -0.02em;
     }
 
@@ -598,25 +598,25 @@
 
     .plan-perks li {
       font-size: 0.78rem;
-      color: #cbd5e1;
+      color: #6f5146;
       display: flex;
       align-items: center;
       gap: 7px;
     }
 
     .plan-perks li.crossed {
-      color: #64748b;
+      color: #9d7b6f;
       text-decoration: line-through;
     }
 
     .perk-check {
-      color: #10b981;
+      color: #529f7c;
       font-weight: bold;
       font-size: 0.85rem;
     }
 
     .perk-x {
-      color: #f87171;
+      color: #c44f5f;
       font-weight: bold;
     }
 
@@ -625,14 +625,14 @@
       width: 100%;
       background: var(--accent-gradient);
       border: none;
-      color: #fff;
+      color: #4d3028;
       font-family: inherit;
       font-size: 1rem;
       font-weight: 700;
       padding: 16px;
       border-radius: 16px;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
+      box-shadow: 0 8px 24px rgba(211, 132, 101, 0.42);
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       align-items: center;
@@ -642,7 +642,7 @@
 
     .cta-subscribe-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(236, 72, 153, 0.55);
+      box-shadow: 0 12px 30px rgba(217, 151, 169, 0.48);
       filter: brightness(1.1);
     }
 
@@ -661,7 +661,7 @@
     .bypass-btn {
       background: none;
       border: none;
-      color: #94a3b8;
+      color: #8b6b60;
       font-size: 0.78rem;
       cursor: pointer;
       text-decoration: underline;
@@ -670,12 +670,12 @@
     }
 
     .bypass-btn:hover {
-      color: #f1f5f9;
+      color: #5a392f;
     }
 
     .fineprint {
       font-size: 0.68rem;
-      color: #475569;
+      color: #9b786c;
       text-align: center;
       line-height: 1.4;
     }
@@ -700,24 +700,24 @@
 
     .checkout-input-group label {
       font-size: 0.75rem;
-      color: #94a3b8;
+      color: #8b6b60;
       font-weight: 600;
     }
 
     .checkout-input {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 250, 245, 0.95);
+      border: 1px solid rgba(217, 170, 144, 0.45);
       border-radius: 12px;
       padding: 12px 14px;
       font-family: 'JetBrains Mono', monospace;
-      color: #fff;
+      color: #4d3028;
       font-size: 0.88rem;
       outline: none;
       transition: border-color 0.2s;
     }
     .checkout-input:focus {
-      border-color: #a855f7;
-      box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25);
+      border-color: #df8364;
+      box-shadow: 0 0 0 2px rgba(223, 131, 100, 0.28);
     }
 
     .card-row {
@@ -751,8 +751,8 @@
     }
 
     .revealed-answer-card {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1.5px solid rgba(16, 185, 129, 0.4);
+      background: rgba(82, 159, 124, 0.14);
+      border: 1.5px solid rgba(82, 159, 124, 0.42);
       border-radius: 20px;
       padding: 20px 24px;
       width: 100%;
@@ -762,7 +762,7 @@
     .revealed-formula {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
-      color: #a7f3d0;
+      color: #2f7456;
       margin-bottom: 4px;
     }
 
@@ -770,8 +770,8 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 2.4rem;
       font-weight: 800;
-      color: #34d399;
-      text-shadow: 0 0 20px rgba(52, 211, 153, 0.4);
+      color: #3c9069;
+      text-shadow: 0 0 20px rgba(82, 159, 124, 0.35);
     }
 
     /* Confetti Canvas */
@@ -819,8 +819,8 @@
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="url(#logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <defs>
             <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#a855f7" />
-              <stop offset="100%" stop-color="#ec4899" />
+              <stop offset="0%" stop-color="#df8364" />
+              <stop offset="100%" stop-color="#d38aa0" />
             </linearGradient>
           </defs>
           <rect x="4" y="2" width="16" height="20" rx="2" />
